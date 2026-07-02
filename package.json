@@ -1,0 +1,25 @@
+{
+  "name": "mani-s-sidekick",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xmanidev/mani-s-sidekick.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/0xmanidev/mani-s-sidekick/issues"
+  },
+  "homepage": "https://github.com/0xmanidev/mani-s-sidekick#readme",
+  "dependencies": {
+    "@slack/bolt": "^4.7.3",
+    "dotenv": "^17.4.2"
+  }
+}
