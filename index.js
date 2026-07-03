@@ -65,7 +65,7 @@ app.command("/manis-sidekick-todo",async({command,ack,respond})=>{
             return respond({
                 text:
                 `your todo-list
-                ${list}`
+${list}`
             })
         
         }
@@ -108,11 +108,11 @@ app.command("/manis-sidekick-todo",async({command,ack,respond})=>{
                 text:
         `📝 Todo Commands
 
-        • /manis-sidekick-todo add <task>
-        • /manis-sidekick-todo list
-        • /manis-sidekick-todo done <id>
-        • /manis-sidekick-todo remove <id>`
-            });
+• /manis-sidekick-todo add <task>
+• /manis-sidekick-todo list
+• /manis-sidekick-todo done <id>
+• /manis-sidekick-todo remove <id>`
+});
     }
 });
 
