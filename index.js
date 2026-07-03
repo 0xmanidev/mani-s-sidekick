@@ -29,6 +29,15 @@ function saveTodos() {
     JSON.stringify(todos, null, 2)
   );
 }
+function loadTodos() {
+  if (fs.existsSync(TODO_FILE)) {
+    try {
+      todos = JSON.parse(fs.readFileSync(TODO_FILE, "utf8"));
+    } catch {
+      todos = [];
+    }
+  }
+}
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -40,6 +49,8 @@ app.command("/manis-sidekick-ping", async ({ ack, respond }) => {
   const start = Date.now();
   await ack();
   const latency = Date.now() - start;
+    loadTodos();
+
 
   await respond({
     text: ` Pong!\nLatency: ${latency}ms`,
@@ -161,6 +172,13 @@ ${list}`,
       saveTodos();
 
       return respond(`Removed Todo #${removed.id}: ${removed.task}`);
+    }
+    case "clear": {
+    todos.length = 0;
+    nextId = 1;
+    saveTodos();
+
+    return respond("🗑 All todos have been cleared.");
     }
 
     default:
