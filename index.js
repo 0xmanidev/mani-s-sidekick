@@ -2,8 +2,33 @@ require("dotenv").config();
 
 const { App } = require("@slack/bolt");
 
-const todos = [];
-let nextId = 1;
+
+const fs = require("fs");
+const path = require("path");
+
+const TODO_FILE = path.join(__dirname, "todos.json");
+
+let todos = [];
+
+if (fs.existsSync(TODO_FILE)) {
+  try {
+    todos = JSON.parse(fs.readFileSync(TODO_FILE, "utf8"));
+  } catch {
+    todos = [];
+  }
+}
+
+let nextId =
+  todos.length > 0
+    ? Math.max(...todos.map(todo => todo.id)) + 1
+    : 1;
+
+function saveTodos() {
+  fs.writeFileSync(
+    TODO_FILE,
+    JSON.stringify(todos, null, 2)
+  );
+}
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -59,6 +84,7 @@ app.command("/manis-sidekick-todo", async ({ command, ack, respond }) => {
       };
 
       todos.push(todo);
+      saveTodos();
 
       return respond({
         text: `✅ Todo Added
@@ -108,6 +134,7 @@ ${list}`,
       }
 
       todo.completed = true;
+      saveTodos();
 
       return respond(`✅ Todo #${id} marked as completed.`);
     }
@@ -130,6 +157,8 @@ ${list}`,
       }
 
       const removed = todos.splice(index, 1)[0];
+
+      saveTodos();
 
       return respond(`Removed Todo #${removed.id}: ${removed.task}`);
     }
